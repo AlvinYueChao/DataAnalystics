@@ -15,9 +15,13 @@ namespace DataAnalysis.Controllers
         private DADbContext db = new DADbContext();
 
         // GET: Stocks
-        public ActionResult Index()
+        public ActionResult Index(String symbol, int date)
         {
-            return View(db.Stocks.ToList());
+            IList<Stock> allstocks = db.Stocks.ToList();
+            var result = (from s in allstocks
+                          where s.Symbol == symbol && s.Date == date
+                          select s).ToList();
+            return View(result);
         }
 
         // GET: Stocks/Details/5
