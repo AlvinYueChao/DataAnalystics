@@ -13,14 +13,17 @@ namespace DataAnalysis.Controllers
     public class StocksController : Controller
     {
         private DADbContext db = new DADbContext();
+        private StockHandler sh = new StockHandler();
 
         // GET: Stocks
-        public ActionResult Index(String symbol, int date)
+        public ActionResult Index(String symbol, int date, int start, int end)
         {
-            IList<Stock> allstocks = db.Stocks.ToList();
-            var result = (from s in allstocks
-                          where s.Symbol == symbol && s.Date == date
-                          select s).ToList();
+            //IList<Stock> allstocks = db.Stocks.ToList();
+            //var result = (from s in allstocks
+            //              where s.Symbol == symbol && s.Date == date
+            //              select s).ToList();
+            //return View(result);
+            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
             return View(result);
         }
 
