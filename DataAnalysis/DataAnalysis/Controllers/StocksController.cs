@@ -27,6 +27,14 @@ namespace DataAnalysis.Controllers
             return View(result);
         }
 
+        // GET: Stocks
+        [HttpGet]
+        public JsonResult GetResult(String symbol, int date, int start, int end)
+        {
+            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Stocks/Details/5
         public ActionResult Details(int? id)
         {

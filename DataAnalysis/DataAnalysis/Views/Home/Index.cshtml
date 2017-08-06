@@ -5,8 +5,47 @@
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="~/Stocks/Index?symbol=aapl&date=20160104&start=930&end=1000" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Symbol: </label>
+                <input name="symbol" id="symbol" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Date: </label>
+                <input name="date" id="date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Start Time: </label>
+                <input name="start" id="start" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>End Time: </label>
+                <input name="end" id="end" />
+            </div>
+        </div>
+    </div>
+    <input type="button" id="searchLink" class="btn btn-primary btn-lg" value="Sarch" />
+        <p>
+            @*<a href="" class="btn btn-primary btn-lg" id="searchLink">Learn more &raquo;</a></p>*@
+            <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+            <script type="text/javascript">
+                $("#searchLink").on("click", function () {
+                    var symbol = $("#symbol").val();
+                    var date = $("#date").val();
+                    var start = $("#start").val();
+                    var end = $("#end").val();
+                    var linkstring = "../stocks?symbol=" + symbol + "&date=" + date + "&start=" + start + "&end=" + end;
+                    window.location.href = linkstring;
+                });
+            </script>
+    </div>
 
 <div class="row">
     <div class="col-md-4">
