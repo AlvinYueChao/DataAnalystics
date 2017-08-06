@@ -23,7 +23,7 @@ namespace DataAnalysis.Controllers
             //              where s.Symbol == symbol && s.Date == date
             //              select s).ToList();
             //return View(result);
-            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
+            IList<Stock> result = sh.GetStocksByFourParams(symbol, date, start, end);
             return View(result);
         }
 
@@ -31,7 +31,7 @@ namespace DataAnalysis.Controllers
         [HttpGet]
         public JsonResult GetResult(String symbol, int date, int start, int end)
         {
-            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
+            IList<Stock> result = sh.GetStocksByFourParams(symbol, date, start, end);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
