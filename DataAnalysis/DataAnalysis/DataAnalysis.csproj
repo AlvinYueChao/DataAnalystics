@@ -168,6 +168,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DADbContext.cs" />
     <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\StockHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

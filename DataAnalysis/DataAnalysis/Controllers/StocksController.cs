@@ -13,11 +13,26 @@ namespace DataAnalysis.Controllers
     public class StocksController : Controller
     {
         private DADbContext db = new DADbContext();
+        private StockHandler sh = new StockHandler();
 
         // GET: Stocks
-        public ActionResult Index()
+        public ActionResult Index(String symbol, int date, int start, int end)
         {
-            return View(db.Stocks.ToList());
+            //IList<Stock> allstocks = db.Stocks.ToList();
+            //var result = (from s in allstocks
+            //              where s.Symbol == symbol && s.Date == date
+            //              select s).ToList();
+            //return View(result);
+            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
+            return View(result);
+        }
+
+        // GET: Stocks
+        [HttpGet]
+        public JsonResult GetResult(String symbol, int date, int start, int end)
+        {
+            IList<Stock> result = sh.GetStocksByParams(symbol, date, start, end);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Stocks/Details/5
