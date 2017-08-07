@@ -10,19 +10,21 @@ namespace DataAnalysis.Models
     public class StockHandler
     {
         private string cs = @"Data Source =.\SQLEXPRESS; Initial Catalog = DataAnalysis.Models.DADbContext; Integrated Security = True";
-        public IList<Stock> GetStocksByParams(String symbol, int date, int start, int end)
+
+        public IList<Stock> ReturnResult(String sql)
         {
             IList<Stock> result = new List<Stock>();
-            using(var cnn = new SqlConnection(cs))
+            using (var cnn = new SqlConnection(cs))
             {
                 cnn.Open();
-                String sql = string.Format("select * from Stocks where Symbol = '{0}' and Date = {1} and Time >= {2} and Time <= {3}", symbol, date, start, end);
                 SqlCommand cmd = new SqlCommand(sql, cnn);
                 SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
 
                 while (reader.Read())
                 {
-                    result.Add(new Stock { ID = reader.GetInt32(0),
+                    result.Add(new Stock
+                    {
+                        ID = reader.GetInt32(0),
                         Symbol = reader.GetString(1),
                         Date = reader.GetInt32(2),
                         Time = reader.GetInt32(3),
@@ -34,9 +36,22 @@ namespace DataAnalysis.Models
                         SplitFactor = reader.GetInt32(9)
                     });
                 }
-
-                return result;
             }
+                return result;
+        }
+
+        public IList<Stock> GetStocksByFourParams(String symbol, int date, int start, int end)
+        {      
+            String sql = string.Format("select * from Stocks where Symbol = '{0}' and Date = {1} and Time >= {2} and Time <= {3}", symbol, date, start, end);
+            IList<Stock> result = ReturnResult(sql);
+            return result;
+        }
+
+        public IList<Stock> GetStocksByTwoParams(String symbol, int date)
+        {
+            String sql = string.Format("select * from Stocks where Symbol = '{0}' and Date = {1}", symbol, date);
+            IList<Stock> result = ReturnResult(sql);
+            return result;
         }
     }
 }

@@ -9,19 +9,19 @@ namespace DataAnalysis.Controllers
 {
     public class CandlestickController : Controller
     {
-        private List<Stock> result = new List<Stock>();
+        private IList<Stock> result = new List<Stock>();
         private StockHandler sh = new StockHandler();
-        // GET: Candlestck
-        public ActionResult Index(String symbol, int date, int start, int end)
+
+        public ActionResult Index()
         {
-            result = sh.GetStocksByParams(symbol, date, start, end).ToList();
             return View();
         }
 
         [HttpGet]
-        public JsonResult GetCharts()
+        public JsonResult GetCharts(String symbol, int date)
         {
-            return Json(new { count = result.Count, data = result}, JsonRequestBehavior.AllowGet);
+            result = sh.GetStocksByTwoParams(symbol, date).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
