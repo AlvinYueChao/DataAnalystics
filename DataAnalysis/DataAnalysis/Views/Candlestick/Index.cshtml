@@ -6,7 +6,8 @@
     <link rel="stylesheet" href=""/>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
-    <script src="~/Scripts/laydate.dev.js"></script>
+    @*import the laydate scripts to date control*@
+    <script src="~/Scripts/laydate.dev.js"></script> 
     <div style="margin-top: 40px; float: left">
             <div class="form-horizontal">
                 <div class="form-group">
@@ -125,7 +126,7 @@
             });
             makeChart();
             
-
+            //make the date input to date format
             laydate({
                 elem: '#date',
                 min: '2016-01-04 00:00:00',
