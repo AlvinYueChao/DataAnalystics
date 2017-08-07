@@ -14,15 +14,14 @@ namespace DataAnalysis.Controllers
         private StockHandler sh = new StockHandler();
 
         // GET: Stocks
-        public ActionResult Index(String symbol, int date, int start, int end)
+        public ActionResult Index()
         {
             //IList<Stock> allstocks = db.Stocks.ToList();
             //var result = (from s in allstocks
             //              where s.Symbol == symbol && s.Date == date
             //              select s).ToList();
             //return View(result);
-            IList<Stock> result = sh.GetStocksByFourParams(symbol, date, start, end);
-            return View(result);
+            return View();
         }
 
         // GET: Stocks
