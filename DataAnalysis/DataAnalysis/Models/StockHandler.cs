@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DataAnalysis.Models
 {
     public class StockHandler
     {
-        private string cs = @"Data Source =.\SQLEXPRESS; Initial Catalog = DataAnalysis.Models.DADbContext; Integrated Security = True";
+        private string cs = ConfigurationManager.ConnectionStrings["Stock"].ConnectionString;
 
         public IList<Stock> ReturnResult(String sql)
         {

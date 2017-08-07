@@ -1,3 +1,6 @@
 DataAnalysis/.vs
 DataAnalysis/DataAnalysis/bin/
 DataAnalysis/DataAnalysis/obj/
+DataAnalysis/TestResults/
+DataAnalysis/DataAnalysis.Test/bin/
+DataAnalysis/DataAnalysis.Test/obj/
