@@ -1,36 +1,30 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "K Chart";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <link rel="stylesheet" href=""/>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
-</head>
-<body>
+    @*import the laydate scripts to date control*@
+    <script src="~/Scripts/laydate.dev.js"></script> 
     <div style="margin-top: 40px; float: left">
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Symbol: </label>
-                    <input name="symbol" id="symbol" />
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Symbol: </label>
+                        <input name="symbol" id="symbol" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Date: </label>
+                        <input name="date" id="date" />
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Date: </label>
-                    <input name="date" id="date" />
-                </div>
-            </div>
+            <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
         </div>
-        <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
-    </div>
-
     <div id="myKChart" style="width: 850px; height: 550px; margin-left: auto; margin-right: 0; margin-top: 20px">
         <script type="text/javascript">
             var iSymbol = "aapl";
@@ -125,12 +119,18 @@
             }
             $("#search").on("click", function () {
                 iSymbol = $("#symbol").val();
-                iDate = $("#date").val();
+                var date = $("#date").val();
+                var dateArr = date.split('-');
+                iDate = dateArr[0] + dateArr[1] + dateArr[2];
                 makeChart();
             });
             makeChart();
             
+            //make the date input to date format
+            laydate({
+                elem: '#date',
+                min: '2016-01-04 00:00:00',
+                max: '2016-03-24 00:00:00'
+            });
         </script>
     </div>
-</body>
-</html>

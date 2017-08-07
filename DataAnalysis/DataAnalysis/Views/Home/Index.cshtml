@@ -3,9 +3,11 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <div class="form-horizontal">
+    <h1>Go K Chart</h1>
+    <br />
+    <p class="lead">The graphic states can be divided into reverse form, finishing form and trend line. After K Tuing its delicate original standard painting is introduced into the stock market and futures market. The stock market and futures market in the K-line diagram contains four data, namely the opening price, high price, low price, closing price, all k is around the four data, reflecting the trend of the situation and price information. If the daily K line chart on a piece of paper, you can get the K line chart, also can draw the week K line chart, month K line chart.</p>
+    <img src="~/Content/Images/kchart-demo.png" alt="K Chart Demo" style="width: 750px; height: 450px; margin:0 auto"/>
+    @*<div class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10">
                 <label>Symbol: </label>
@@ -32,9 +34,10 @@
         </div>
     </div>
     <input type="button" id="searchLink" class="btn btn-primary btn-lg" value="Search" />
-        <p>
-            @*<a href="" class="btn btn-primary btn-lg" id="searchLink">Learn more &raquo;</a></p>*@
-            <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+        <p>*@
+            
+            <a href="../candlestick/index" class="btn btn-primary btn-lg" id="searchLink" style="margin-left: 20px">K Chart Analysis &raquo;</a></p>
+            @*<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
             <script type="text/javascript">
                 $("#searchLink").on("click", function () {
                     var symbol = $("#symbol").val();
@@ -44,7 +47,7 @@
                     var linkstring = "../stocks?symbol=" + symbol + "&date=" + date + "&start=" + start + "&end=" + end;
                     window.location.href = linkstring;
                 });
-            </script>
+            </script>*@
     </div>
 
 <div class="row">
