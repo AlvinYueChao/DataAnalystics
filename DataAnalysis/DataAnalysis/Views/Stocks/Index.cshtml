@@ -1,81 +1,130 @@
-﻿@model IEnumerable<DataAnalysis.Models.Stock>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Stocks Index</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/laydate.dev.js"></script>
+</head>
+<body>
+    <div style="margin-top: 40px; float: left">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Symbol: </label>
+                    <input name="symbol" id="symbol" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Date: </label>
+                    <input name="date" id="date" />
+                </div>
+                <script type="text/javascript">
+                    laydate({
+                        elem: '#date',
+                        min: '2016-01-04 00:00:00',
+                        max: '2016-03-24 00:00:00'
+                    })
+                </script>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Start Time: </label>
+                    <input name="start" id="start" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>End Time: </label>
+                    <input name="end" id="end" />
+                </div>
+            </div>
+        </div>
+        <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
+    </div>
+    <div id="stocksList" style="width: 850px; height: 550px; margin-left: auto; margin-right: 0; margin-top: 20px">
+        <script type="text/javascript">
+            var iSymbol = "a";
+            var iDate = 20160104;
+            var iStart = 930;
+            var iEnd = 1000;
 
-@{
-    ViewBag.Title = "Index";
-}
+            var tableHead = $("<table id=\"stocks\", class=\"table\">");
+            tableHead.appendTo($("#stocksList"));
+            var listStocks = function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Stocks/GetResult",
+                    data: {
+                        symbol: iSymbol,
+                        date: iDate,
+                        start: iStart,
+                        end: iEnd
+                    },
+                    cache: false,
+                    success: function (data) {
+                        //clear origin data before show the result.
+                        $("tbody").remove();
 
-<h2>Index</h2>
+                        var tableTitle = $(
+                            "<tr>" +
+                                "<th>ID</th>" +
+                                "<th>Symbol</th>" +
+                                "<th>Date</th>" +
+                                "<th>Time</th>" +
+                                "<th>Open</th>" +
+                                "<th>High</th>" +
+                                "<th>Low</th>" +
+                                "<th>Close</th>" +
+                                "<th>Volume</th>" +
+                                "<th>SplitFactor</th>" +
+                            "</tr>");
+                        tableTitle.appendTo(tableHead);
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Symbol)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Time)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Open)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.High)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Low)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Close)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Volume)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SplitFactor)
-        </th>
-        <th></th>
-    </tr>
+                        var tableEnd = $("</table>");
+                        $.each(data, function (key, value) {
+                            var id = value.ID;
+                            var symbol = value.Symbol;
+                            var date = value.Date;
+                            var time = value.Time;
+                            var open = value.Open;
+                            var high = value.High;
+                            var low = value.Low;
+                            var close = value.Close;
+                            var volume = value.Volume;
+                            var splitFactor = value.SplitFactor;
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Symbol)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Open)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.High)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Low)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Close)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Volume)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SplitFactor)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
-</table>
+                            var oneRow = $(
+                                    "<tr>" +
+                                        "<td>" + id + "</td>" +
+                                        "<td>" + symbol + "</td>" +
+                                        "<td>" + date + "</td>" +
+                                        "<td>" + time + "</td>" +
+                                        "<td>" + open + "</td>" +
+                                        "<td>" + high + "</td>" +
+                                        "<td>" + low + "</td>" +
+                                        "<td>" + close + "</td>" +
+                                        "<td>" + volume + "</td>" +
+                                        "<td>" + splitFactor + "</td>" +
+                                    "</tr>");
+                            oneRow.appendTo(tableHead);
+                        });
+                        tableEnd.appendTo(tableHead);
+                    }
+                });
+            }
+            
+            $("#search").on("click", function () {
+                iSymbol = $("#symbol").val();
+                var date = $("#date").val();
+                var dateArr = date.split('-');
+                iDate = dateArr[0] + dateArr[1] + dateArr[2];
+                iStart = $("#start").val();
+                iEnd = $("#end").val();
+                listStocks();
+            });
+            listStocks();
+        </script>
+    </div>
+</body>
+</html>
