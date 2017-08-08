@@ -39,7 +39,9 @@
         var iDate = 20160104;
         var iStart = 930;
         var iEnd = 1000;
+ 
         var listStocks = function () {
+            //clear the origin data before show search result
             $("#stocksList").empty();
             var tableHead = $("<table id=\"stocks\", class=\"table\">");
             tableHead.appendTo($("#stocksList"));
