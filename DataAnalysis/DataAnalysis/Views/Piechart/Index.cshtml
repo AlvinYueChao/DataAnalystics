@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Pie Chart";
+}
+
+<script src="~/Scripts/1-6-10.esl.js"></script>
+<script src="~/Scripts/echarts.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/laydate.dev.js"></script> 
+<div style="margin-top: 40px; float: left">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Date: </label>
+                <input name="date" id="date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Time: </label>
+                <input name="time" id="time" />
+            </div>
+        </div>
+    </div>
+    <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
+</div>
+<div id="main" style="height:500px; width:750px; margin-left: auto; margin-right: 20px; margin-top: 40px"></div>
+<script type="text/javascript">
+        var iDate = 20160104;
+        var iTime = 930;
+        var makePieChart = function () {
+            var formatTime;
+            if (iTime.toString().length == 3) {
+                formatTime = iTime.toString().substring(0, 1) + ":" + iTime.toString().substring(1);
+            } else {
+                formatTime = iTime.toString().substring(0, 2) + ":" + iTime.toString().substring(2);
+            }
+            $.ajax({
+                type: 'GET',
+                url: "/Piechart/GetCharts",
+                data: {
+                    date: iDate,
+                    time: iTime
+                },
+                cache: false,
+                success: function (data) {
+                    var result = new Array();
+                    var names = new Array();
+                    $.each(data, function (key, val) {
+                        result.push({ value: val.Volume, name: val.Symbol });
+                        names.push(val.Symbol);
+                        require.config({
+                            paths: {
+                                'echarts': 'echarts',
+                                'echarts/chart/pie': 'echarts'
+                            }
+                        });
+                        $.ajax({})
+                        require(
+                            [
+                                'echarts',
+                                'echarts/chart/pie'
+                            ],
+                            function (ec) {
+                                var myChart = ec.init(document.getElementById('main'));
+                                var option = {
+                                    title: {
+                                        text: iDate.toString().substring(0,4) + "/" + iDate.toString().substring(4,6) + "/" +iDate.toString().substring(6),
+                                        subtext: formatTime,
+                                        x: 'center'
+                                    },
+                                    tooltip: {
+                                        trigger: 'item',
+                                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                                    },
+                                    legend: {
+                                        orient: 'vertical',
+                                        x: 'left',
+                                        data: names
+                                    },
+                                    toolbox: {
+                                        show: true,
+                                        feature: {
+                                            mark: { show: true },
+                                            dataView: { show: true, readOnly: false },
+                                            restore: { show: true },
+                                            saveAsImage: { show: true }
+                                        }
+                                    },
+                                    calculable: true,
+                                    series: [
+                                            {
+                                                name: 'volume',
+                                                type: 'pie',
+                                                radius: '55%',
+                                                center: ['50%', '60%'],
+                                                data: result
+                                            }
+                                    ]
+                                };
+                                myChart.setOption(option);
+                            }
+                    );
+                    })
+                }
+            });
+        }
+        makePieChart();
+        $("#search").on("click", function () {
+            iTime = $("#time").val();
+            var dateArr = $("#date").val().split('-');
+            iDate = dateArr[0] + dateArr[1] + dateArr[2];
+            makePieChart();
+        });
+
+        laydate({
+            elem: '#date',
+            min: '2016-01-04 00:00:00',
+            max: '2016-03-24 00:00:00'
+        });
+</script>
