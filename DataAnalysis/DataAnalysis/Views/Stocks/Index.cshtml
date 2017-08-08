@@ -17,13 +17,6 @@
                 <label>Date: </label>
                 <input name="date" id="date" />
             </div>
-            <script type="text/javascript">
-                laydate({
-                    elem: '#date',
-                    min: '2016-01-04 00:00:00',
-                    max: '2016-03-24 00:00:00'
-                })
-            </script>
         </div>
         <div class="form-group">
             <div class="col-md-10">
@@ -40,16 +33,16 @@
     </div>
     <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
 </div>
-<div id="stocksList" style="width: 850px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px">
+<div id="stocksList" style="width: 850px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px"></div>
     <script type="text/javascript">
         var iSymbol = "a";
         var iDate = 20160104;
         var iStart = 930;
         var iEnd = 1000;
-
-        var tableHead = $("<table id=\"stocks\", class=\"table\">");
-        tableHead.appendTo($("#stocksList"));
         var listStocks = function () {
+            $("#stocksList").empty();
+            var tableHead = $("<table id=\"stocks\", class=\"table\">");
+            tableHead.appendTo($("#stocksList"));
             $.ajax({
                 type: "GET",
                 url: "/Stocks/GetResult",
@@ -61,9 +54,6 @@
                 },
                 cache: false,
                 success: function (data) {
-                    //clear origin data before show the result.
-                    $("tbody").remove();
-
                     var tableTitle = $(
                         "<tr>" +
                             "<th>ID</th>" +
@@ -122,5 +112,11 @@
             listStocks();
         });
         listStocks();
+
+        laydate({
+            elem: '#date',
+            min: '2016-01-04 00:00:00',
+            max: '2016-03-24 00:00:00'
+        });
     </script>
-</div>
+
