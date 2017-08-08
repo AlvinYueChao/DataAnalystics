@@ -54,5 +54,12 @@ namespace DataAnalysis.Models
             IList<Stock> result = ReturnResult(sql);
             return result;
         }
+
+        public IList<Stock> GetStocksByTwoParams(int date, int time)
+        {
+            String sql = string.Format("select * from Stocks where Date = '{0}' and Time = {1}", date, time);
+            IList<Stock> result = ReturnResult(sql);
+            return result;
+        }
     }
 }

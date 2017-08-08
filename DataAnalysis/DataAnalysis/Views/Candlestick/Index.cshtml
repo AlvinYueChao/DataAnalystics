@@ -74,11 +74,11 @@
                             toolbox: {
                                 show: true,
                                 feature: {
-                                    mark: { show: true },
+                                    mark: { show: false },
                                     dataZoom: { show: true },
-                                    dataView: { show: true, readOnly: false },
-                                    magicType: { show: true, type: ['line', 'bar'] },
-                                    restore: { show: true },
+                                    dataView: { show: false, readOnly: false },
+                                    magicType: { show: false, type: ['line', 'bar'] },
+                                    restore: { show: false },
                                     saveAsImage: { show: true }
                                 }
                             },
@@ -116,6 +116,7 @@
                     }
                 });
             }
+
             $("#search").on("click", function () {
                 iSymbol = $("#symbol").val();
                 var date = $("#date").val();

@@ -1,29 +1,25 @@
-﻿using System;
+﻿using DataAnalysis.Models;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DataAnalysis.Models;
 
 namespace DataAnalysis.Controllers
 {
-    public class StocksController : Controller
+    public class PiechartController : Controller
     {
+        private IList<Stock> result = new List<Stock>();
         private StockHandler sh = new StockHandler();
-
-        // GET: Stocks
+        // GET: Piechart
         public ActionResult Index()
         {
             return View();
         }
-
-        // GET: Stocks
         [HttpGet]
-        public JsonResult GetResult(String symbol, int date, int start, int end)
+        public JsonResult GetCharts(int date, int time)
         {
-            IList<Stock> result = sh.GetStocksByFourParams(symbol, date, start, end);
+            result = sh.GetStocksByTwoParams(date, time).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
