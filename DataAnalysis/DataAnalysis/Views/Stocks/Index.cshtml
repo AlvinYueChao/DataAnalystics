@@ -4,6 +4,7 @@
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/laydate.dev.js"></script>
+<script src="~/Scripts/tablesorter.js"></script>
 <div style="margin-top: 40px; float: left">
     <div class="form-horizontal">
         <div class="form-group">
@@ -32,18 +33,32 @@
         </div>
     </div>
     <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
+    <div id="detailContent" style="width: 260px; padding: 5px; border-color: dodgerblue; border:dashed; margin-top: 20px">
+    </div>
 </div>
-<div id="stocksList" style="width: 850px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px"></div>
+<div id="stocksList" style="width: 800px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px">
     <script type="text/javascript">
         var iSymbol = "a";
         var iDate = 20160104;
         var iStart = 930;
         var iEnd = 1000;
- 
+
         var listStocks = function () {
             //clear the origin data before show search result
             $("#stocksList").empty();
-            var tableHead = $("<table id=\"stocks\", class=\"table\">");
+            var tableHead = $("<table id=\"stocks\", class=\"table\">" +
+                    "<tr>" +
+                        "<th>ID</th>" +
+                        "<th>Symbol</th>" +
+                        "<th>Date</th>" +
+                        "<th>Time</th>" +
+                        "<th>Open</th>" +
+                        "<th>High</th>" +
+                        "<th>Low</th>" +
+                        "<th>Close</th>" +
+                        "<th>Volume</th>" +
+                        "<th>Split Factor</th>" +
+                    "</tr>");
             tableHead.appendTo($("#stocksList"));
             $.ajax({
                 type: "GET",
@@ -56,21 +71,6 @@
                 },
                 cache: false,
                 success: function (data) {
-                    var tableTitle = $(
-                        "<tr>" +
-                            "<th>ID</th>" +
-                            "<th>Symbol</th>" +
-                            "<th>Date</th>" +
-                            "<th>Time</th>" +
-                            "<th>Open</th>" +
-                            "<th>High</th>" +
-                            "<th>Low</th>" +
-                            "<th>Close</th>" +
-                            "<th>Volume</th>" +
-                            "<th>SplitFactor</th>" +
-                        "</tr>");
-                    tableTitle.appendTo(tableHead);
-
                     var tableEnd = $("</table>");
                     $.each(data, function (key, value) {
                         var id = value.ID;
@@ -87,7 +87,7 @@
                         var oneRow = $(
                                 "<tr>" +
                                     "<td>" + id + "</td>" +
-                                    "<td>" + symbol + "</td>" +
+                                    "<td align=\"center\">" + symbol + "</td>" +
                                     "<td>" + date + "</td>" +
                                     "<td>" + time + "</td>" +
                                     "<td>" + open + "</td>" +
@@ -95,7 +95,7 @@
                                     "<td>" + low + "</td>" +
                                     "<td>" + close + "</td>" +
                                     "<td>" + volume + "</td>" +
-                                    "<td>" + splitFactor + "</td>" +
+                                    "<td align=\"center\">" + splitFactor + "</td>" +
                                 "</tr>");
                         oneRow.appendTo(tableHead);
                     });
@@ -103,7 +103,39 @@
                 }
             });
         }
-            
+
+        var showDetail = function () {
+            $("#detailContent").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Stocks/GetDetail",
+                data: {
+                    symbol: iSymbol
+                },
+                cache: false,
+                success: function (data) {
+                    var oneRow = $(
+                            "<p>" +
+                            "<strong>ID</strong> is: " + data.ID + "</br>" +
+                            "<strong>EXP</strong> is: " + data.EXP + "</br>" +
+                            "<strong>Symbol</strong> is: " + data.Symbol + "</br>" +
+                            "<strong>Name</strong> is: " + data.Name + "</br>" +
+                            "<strong>LastSale</strong> is: " + data.LastSale + "</br>" +
+                            "<strong>MarketCap</strong> is: " + data.MarketCap + "</br>" +
+                            "<strong>IPOyear</strong> is: " + data.IPOyear + "</br>" +
+                            "<strong>Sector</strong> is: " + data.Sector + "</br>" +
+                            "<strong>Industry</strong> is: " + data.Industry + "</br>" +
+                            "<strong>Summary Quote</strong> is: " + data.SummaryQuote + "</p>");
+                    oneRow.appendTo($("#detailContent"));
+                }          
+            });
+        }
+
+        window.onload = function () {
+            new TableSorter("stocks");
+        }
+
         $("#search").on("click", function () {
             iSymbol = $("#symbol").val();
             var date = $("#date").val();
@@ -112,8 +144,10 @@
             iStart = $("#start").val();
             iEnd = $("#end").val();
             listStocks();
+            showDetail();
         });
         listStocks();
+        showDetail();
 
         laydate({
             elem: '#date',
@@ -121,4 +155,4 @@
             max: '2016-03-24 00:00:00'
         });
     </script>
-
+</div>

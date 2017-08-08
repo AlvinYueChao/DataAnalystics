@@ -10,7 +10,7 @@ namespace DataAnalysis.Models
 {
     public class StockHandler
     {
-        private string cs = ConfigurationManager.ConnectionStrings["Stock"].ConnectionString;
+        private String cs = ConfigurationManager.ConnectionStrings["Stock"].ConnectionString;
 
         public IList<Stock> ReturnResult(String sql)
         {
@@ -43,14 +43,14 @@ namespace DataAnalysis.Models
 
         public IList<Stock> GetStocksByFourParams(String symbol, int date, int start, int end)
         {      
-            String sql = string.Format("select * from Stocks where Symbol = '{0}' and Date = {1} and Time >= {2} and Time <= {3}", symbol, date, start, end);
+            String sql = String.Format("select * from Stocks where Symbol = '{0}' and Date = {1} and Time >= {2} and Time <= {3}", symbol, date, start, end);
             IList<Stock> result = ReturnResult(sql);
             return result;
         }
 
         public IList<Stock> GetStocksByTwoParams(String symbol, int date)
         {
-            String sql = string.Format("select * from Stocks where Symbol = '{0}' and Date = {1}", symbol, date);
+            String sql = String.Format("select * from Stocks where Symbol = '{0}' and Date = {1}", symbol, date);
             IList<Stock> result = ReturnResult(sql);
             return result;
         }

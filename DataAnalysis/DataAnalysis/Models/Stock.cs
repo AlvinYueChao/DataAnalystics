@@ -10,7 +10,7 @@ namespace DataAnalysis.Models
     public class Stock
     {
         public int ID { get; set; }
-        public string Symbol { get; set; }
+        public String Symbol { get; set; }
         public int Date { get; set; }
         public int Time { get; set; }
         public double Open { get; set; }
