@@ -9,7 +9,6 @@ namespace DataAnalysis.Models
 {
     public class Stock
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Symbol { get; set; }
         public int Date { get; set; }
