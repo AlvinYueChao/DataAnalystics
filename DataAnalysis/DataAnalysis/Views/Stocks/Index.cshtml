@@ -46,10 +46,13 @@
         var iDate = 20160104;
         var iStart = 930;
         var iEnd = 1000;
-
-        var tableHead = $("<table id=\"stocks\", class=\"table\">");
-        tableHead.appendTo($("#stocksList"));
+        
         var listStocks = function () {
+            //clear the origin data before show search result
+            $("#stocksList").empty();
+
+            var tableHead = $("<table id=\"stocks\", class=\"table\">");
+            tableHead.appendTo($("#stocksList"));
             $.ajax({
                 type: "GET",
                 url: "/Stocks/GetResult",
@@ -61,9 +64,7 @@
                 },
                 cache: false,
                 success: function (data) {
-                    //clear origin data before show the result.
-                    $("tbody").remove();
-
+                    
                     var tableTitle = $(
                         "<tr>" +
                             "<th>ID</th>" +
