@@ -10,14 +10,8 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10">
-                <label>Date: </label>
-                <input name="date" id="date" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>Time: </label>
-                <input name="time" id="time" />
+                <label>Date&Time:</label><br>
+                <input name="dateTime" id="dateTime" />
             </div>
         </div>
     </div>
@@ -25,21 +19,19 @@
 </div>
 <div id="main" style="height:500px; width:750px; margin-left: auto; margin-right: 20px; margin-top: 40px"></div>
 <script type="text/javascript">
-        var iDate = 20160104;
-        var iTime = 930;
+    var iDateTime = "20160104930";
         var makePieChart = function () {
             var formatTime;
-            if (iTime.toString().length == 3) {
-                formatTime = iTime.toString().substring(0, 1) + ":" + iTime.toString().substring(1);
+            if (iDateTime.toString().length == 11) {
+                formatTime = iDateTime.substring(8, 9) + ":" + iDateTime.substring(9);
             } else {
-                formatTime = iTime.toString().substring(0, 2) + ":" + iTime.toString().substring(2);
+                formatTime = iDateTime.substring(8, 10) + ":" + iDateTime.substring(10);
             }
             $.ajax({
                 type: 'GET',
                 url: "/Piechart/GetCharts",
                 data: {
-                    date: iDate,
-                    time: iTime
+                    dateTime: iDateTime
                 },
                 cache: false,
                 success: function (data) {
@@ -63,7 +55,7 @@
                                 var myChart = ec.init(document.getElementById('main'));
                                 var option = {
                                     title: {
-                                        text: iDate.toString().substring(0,4) + "/" + iDate.toString().substring(4,6) + "/" +iDate.toString().substring(6),
+                                        text: iDateTime.substring(0,4) + "/" + iDateTime.substring(4,6) + "/" + iDateTime.substring(6, 8) + " " + formatTime,
                                         subtext: formatTime,
                                         x: 'center'
                                     },
@@ -105,15 +97,25 @@
         }
         makePieChart();
         $("#search").on("click", function () {
-            iTime = $("#time").val();
-            var dateArr = $("#date").val().split('-');
-            iDate = dateArr[0] + dateArr[1] + dateArr[2];
+            var date = $("#dateTime").val().substring(0, 10);
+            var time = new String();
+            if($("#dateTime").val().substring(11) == "0"){
+                time = $("#dateTime").val().substring(12);
+            }
+            else{
+                time = $("#dateTime").val().substring(11);
+            }
+            var timeArr = time.split(':');
+            var dateArr = date.split('-');
+            iDateTime = dateArr[0] + dateArr[1] + dateArr[2] + timeArr[0] + timeArr[1];
             makePieChart();
         });
 
         laydate({
-            elem: '#date',
+            elem: '#dateTime',
             min: '2016-01-04 00:00:00',
-            max: '2016-03-24 00:00:00'
+            max: '2016-03-24 00:00:00',
+            istime: true,
+            format: 'YYYY-MM-DD hh:mm'
         });
 </script>

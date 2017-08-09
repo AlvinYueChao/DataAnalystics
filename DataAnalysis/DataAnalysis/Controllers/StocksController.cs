@@ -22,9 +22,9 @@ namespace DataAnalysis.Controllers
 
         // GET: Stocks
         [HttpGet]
-        public JsonResult GetResult(String symbol, int date, int start, int end)
+        public JsonResult GetResult(String symbol, String startDateTime, String endDateTime)
         {
-            IList<Stock> result = sh.GetStocksByFourParams(symbol, date, start, end);
+            IList<Stock> result = sh.GetStocksByThreeParams(symbol, startDateTime, endDateTime);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

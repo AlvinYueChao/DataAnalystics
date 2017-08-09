@@ -17,9 +17,9 @@ namespace DataAnalysis.Controllers
             return View();
         }
         [HttpGet]
-        public JsonResult GetCharts(int date, int time)
+        public JsonResult GetCharts(String dateTime)
         {
-            result = sh.GetStocksByTwoParams(date, time).ToList();
+            result = sh.GetStocksByDateTime(dateTime).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

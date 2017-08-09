@@ -9,27 +9,39 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10">
-                <label>Symbol: </label>
+                <label>Symbol:</label><br>
                 <input name="symbol" id="symbol" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <label>Date: </label>
-                <input name="date" id="date" />
+                <label>Start Date&Time:</label><br>
+                <input name="startDT" id="startDT" />
             </div>
+            <script type="text/javascript">
+                laydate({
+                    elem: '#startDT',
+                    min: '2016-01-04 00:00:00',
+                    max: '2016-03-24 00:00:00',
+                    istime: true,
+                    format: 'YYYY-MM-DD hh:mm'
+                });
+            </script>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <label>Start Time: </label>
-                <input name="start" id="start" />
+                <label>End Date&Time:</label><br>
+                <input name="endDT" id="endDT" />
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>End Time: </label>
-                <input name="end" id="end" />
-            </div>
+            <script type="text/javascript">
+                laydate({
+                    elem: '#endDT',
+                    min: '2016-01-04 00:00:00',
+                    max: '2016-03-24 00:00:00',
+                    istime: true,
+                    format: 'YYYY-MM-DD hh:mm'
+                });
+            </script>
         </div>
     </div>
     <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
@@ -39,9 +51,9 @@
 <div id="stocksList" style="width: 800px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px">
     <script type="text/javascript">
         var iSymbol = "a";
-        var iDate = 20160104;
-        var iStart = 930;
-        var iEnd = 1000;
+        var iStartDateTime = "20160104930";
+        var iEndDateTime = "201602051000";
+
 
         var listStocks = function () {
             //clear the origin data before show search result
@@ -65,9 +77,8 @@
                 url: "/Stocks/GetResult",
                 data: {
                     symbol: iSymbol,
-                    date: iDate,
-                    start: iStart,
-                    end: iEnd
+                    startDateTime: iStartDateTime,
+                    endDateTime: iEndDateTime
                 },
                 cache: false,
                 success: function (data) {
@@ -138,21 +149,37 @@
 
         $("#search").on("click", function () {
             iSymbol = $("#symbol").val();
-            var date = $("#date").val();
-            var dateArr = date.split('-');
-            iDate = dateArr[0] + dateArr[1] + dateArr[2];
-            iStart = $("#start").val();
-            iEnd = $("#end").val();
+            
+            var startDTStr = $("#startDT").val();
+            var startDate = startDTStr.substr(0, 10);
+            var startDateArr = startDate.split('-');
+            var startTime = new String();
+            if (startDTStr.substr(11, 1) == "0") {
+                startTime = startDTStr.substr(12);
+            }
+            else {
+                startTime = startDTStr.substr(11);
+            }
+            var startTimeArr = startTime.split(':');
+            iStartDateTime = startDateArr[0] + startDateArr[1] + startDateArr[2] + startTime[0] + startTime[1];
+
+            var endDTStr = $("#endDT").val();
+            var endDate = endDTStr.substr(0, 10);
+            var endDateArr = endDate.split('-');
+            var endTime = new String();
+            if (endDTStr.substr(11, 1) == "0") {
+                endTime = endDTStr.substr(12);
+            }
+            else {
+                endTime = endDTStr.substr(11);
+            }
+            var endTimeArr = endTime.split(':');
+            iEndDateTime = endDateArr[0] + endDateArr[1] + endDateArr[2] + endTimeArr[0] + endTimeArr[1];
+
             listStocks();
             showDetail();
         });
         listStocks();
         showDetail();
-
-        laydate({
-            elem: '#date',
-            min: '2016-01-04 00:00:00',
-            max: '2016-03-24 00:00:00'
-        });
     </script>
 </div>

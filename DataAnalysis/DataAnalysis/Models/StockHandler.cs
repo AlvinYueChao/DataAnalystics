@@ -41,9 +41,13 @@ namespace DataAnalysis.Models
                 return result;
         }
 
-        public IList<Stock> GetStocksByFourParams(String symbol, int date, int start, int end)
-        {      
-            String sql = String.Format("select * from Stocks where Symbol = '{0}' and Date = {1} and Time >= {2} and Time <= {3}", symbol, date, start, end);
+        public IList<Stock> GetStocksByThreeParams(String symbol, string startDateTime, string endDateTime)
+        {
+            var startDate = startDateTime.Substring(0, 8);
+            var startTime = startDateTime.Substring(8);
+            var endDate = endDateTime.Substring(0, 8);
+            var endTime = endDateTime.Substring(8);   
+            String sql = String.Format("select * from Stocks where Symbol = '{0}' and Date >= {1} and Date <= {2} and Time >= {3} and Time <= {4}", symbol, startDate, endDate, startTime, endTime);
             IList<Stock> result = ReturnResult(sql);
             return result;
         }
@@ -55,8 +59,10 @@ namespace DataAnalysis.Models
             return result;
         }
 
-        public IList<Stock> GetStocksByTwoParams(int date, int time)
+        public IList<Stock> GetStocksByDateTime(String dateTime)
         {
+            var date = dateTime.Substring(0, 8);
+            var time = dateTime.Substring(8);
             String sql = string.Format("select * from Stocks where Date = '{0}' and Time = {1}", date, time);
             IList<Stock> result = ReturnResult(sql);
             return result;
