@@ -61,5 +61,31 @@ namespace DataAnalysis.Models
             IList<Stock> result = ReturnResult(sql);
             return result;
         }
+
+        public bool InsertSymbol(String symbol)
+        {
+            bool result = true;
+            using (var cnn = new SqlConnection(cs))
+            {
+                cnn.Open();
+                String sql = string.Format("select * from [User] where Symbol = '{0}'", symbol);
+                SqlCommand cmd = new SqlCommand(sql , cnn);
+                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+
+                if (reader.HasRows)
+                {
+                    result = false;
+                    return result;
+                }
+                else
+                {
+                    reader.Close();
+                    String insertsql = string.Format("insert into [User] values ('Analyst', '{0}')", symbol);
+                    cmd = new SqlCommand(insertsql, cnn);
+                    cmd.ExecuteNonQuery();
+                }
+                return result;
+            }
+        }
     }
 }

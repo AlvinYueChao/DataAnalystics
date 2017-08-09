@@ -22,8 +22,10 @@
                     </div>
                 </div>
             </div>
-            <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
+            <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" /><br /><br /><br />
+            <input type="button" id="add" class="btn btn-primary btn-lg" style="background-color:black" value="Add to My Portfolio" />
         </div>
+    
     <div id="myKChart" style="width: 850px; height: 550px; margin-left: auto; margin-right: 0; margin-top: 20px">
         <script type="text/javascript">
             var iSymbol = "aapl";
@@ -131,6 +133,20 @@
                 elem: '#date',
                 min: '2016-01-04 00:00:00',
                 max: '2016-03-24 00:00:00'
+            });
+
+            $("#add").on("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Candlestick/Insert?symbol=" + iSymbol,
+                    success: function (data) {
+                        if (data == true) {
+                            alert("Add successful！");
+                        } else {
+                            alert("Add fail! You already have this stock!")
+                        }
+                    }
+                });
             });
         </script>
     </div>

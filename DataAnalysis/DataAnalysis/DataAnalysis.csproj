@@ -152,12 +152,15 @@
     <Compile Include="Controllers\CandlestickController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PiechartController.cs" />
+    <Compile Include="Controllers\PortfolioController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Detail.cs" />
     <Compile Include="Models\DetailHandler.cs" />
+    <Compile Include="Models\Portfolio.cs" />
+    <Compile Include="Models\PortfolioHandler.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\StockHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -229,6 +232,7 @@
     <Content Include="Views\Stocks\Index.cshtml" />
     <Content Include="Views\Candlestick\Index.cshtml" />
     <Content Include="Views\Piechart\Index.cshtml" />
+    <Content Include="Views\Portfolio\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
