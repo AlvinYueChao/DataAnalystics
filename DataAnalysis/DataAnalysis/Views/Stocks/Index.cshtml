@@ -4,62 +4,59 @@
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/laydate.dev.js"></script>
-<script src="~/Scripts/tablesorter.js"></script>
-<div style="margin-top: 40px; float: left">
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>Symbol: </label>
-                <input name="symbol" id="symbol" />
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table.css" rel="stylesheet" />
+<script type="text/javascript" language="javascript" src="~/Scripts/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+			
+</script>
+<div style="min-height:680px; width:100%;">
+    <div style="margin-top: 40px; float: left">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Symbol: </label>
+                    <input name="symbol" id="symbol" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Date: </label><br />
+                    <input name="date" id="date" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>Start Time: </label>
+                    <input name="start" id="start" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label>End Time: </label>
+                    <input name="end" id="end" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>Date: </label>
-                <input name="date" id="date" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>Start Time: </label>
-                <input name="start" id="start" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>End Time: </label>
-                <input name="end" id="end" />
-            </div>
+        <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
+        <div id="detailContent" style="width: 260px; padding: 5px; border-color: dodgerblue; border:dashed; margin-top: 20px">
         </div>
     </div>
-    <input type="button" id="search" class="btn btn-primary btn-lg" value="Search" />
-    <div id="detailContent" style="width: 260px; padding: 5px; border-color: dodgerblue; border:dashed; margin-top: 20px">
+    <div id="stocksList" style="width: 800px; height: auto; float:right; margin-top: 40px">
+        
     </div>
-</div>
-<div id="stocksList" style="width: 800px; height: auto; margin-left: auto; margin-right: 0; margin-top: 20px">
+    </div>
     <script type="text/javascript">
-        var iSymbol = "a";
+        var iSymbol = "aapl";
         var iDate = 20160104;
         var iStart = 930;
         var iEnd = 1000;
 
         var listStocks = function () {
-            //clear the origin data before show search result
             $("#stocksList").empty();
-            var tableHead = $("<table id=\"stocks\", class=\"table\">" +
-                    "<tr>" +
-                        "<th>ID</th>" +
-                        "<th>Symbol</th>" +
-                        "<th>Date</th>" +
-                        "<th>Time</th>" +
-                        "<th>Open</th>" +
-                        "<th>High</th>" +
-                        "<th>Low</th>" +
-                        "<th>Close</th>" +
-                        "<th>Volume</th>" +
-                        "<th>Split Factor</th>" +
-                    "</tr>");
-            tableHead.appendTo($("#stocksList"));
+            var tableContent = $("<tbody></tbody>");
+            var table = $("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"display\" id=\"example\"></table>");
             $.ajax({
                 type: "GET",
                 url: "/Stocks/GetResult",
@@ -69,9 +66,9 @@
                     start: iStart,
                     end: iEnd
                 },
+                async:false,
                 cache: false,
                 success: function (data) {
-                    var tableEnd = $("</table>");
                     $.each(data, function (key, value) {
                         var id = value.ID;
                         var symbol = value.Symbol;
@@ -84,23 +81,47 @@
                         var volume = value.Volume;
                         var splitFactor = value.SplitFactor;
 
-                        var oneRow = $(
-                                "<tr>" +
-                                    "<td>" + id + "</td>" +
-                                    "<td align=\"center\">" + symbol + "</td>" +
-                                    "<td>" + date + "</td>" +
-                                    "<td>" + time + "</td>" +
-                                    "<td>" + open + "</td>" +
-                                    "<td>" + high + "</td>" +
-                                    "<td>" + low + "</td>" +
-                                    "<td>" + close + "</td>" +
-                                    "<td>" + volume + "</td>" +
-                                    "<td align=\"center\">" + splitFactor + "</td>" +
-                                "</tr>");
-                        oneRow.appendTo(tableHead);
+                        if (key % 2 == 0) {
+                            var oneRow = $(
+                                    "<tr class=\"even gradeA\">" +
+                                        "<td class=\"center\">" + symbol + "</td>" +
+                                        "<td class=\"center\">" + date + "</td>" +
+                                        "<td class=\"center\">" + time + "</td>" +
+                                        "<td class=\"center\">" + open + "</td>" +
+                                        "<td class=\"center\">" + high + "</td>" +
+                                        "<td class=\"center\">" + low + "</td>" +
+                                        "<td class=\"center\">" + close + "</td>" +
+                                        "<td class=\"center\">" + volume + "</td>" +
+                                        "<td class=\"center\">" + splitFactor + "</td>" +
+                                    "</tr>");
+                            oneRow.appendTo(tableContent);
+                        } else {
+                            var oneRow = $(
+                                    "<tr class=\"odd gradeA\">" +
+                                        "<td class=\"center\">" + symbol + "</td>" +
+                                        "<td class=\"center\">" + date + "</td>" +
+                                        "<td class=\"center\">" + time + "</td>" +
+                                        "<td class=\"center\">" + open + "</td>" +
+                                        "<td class=\"center\">" + high + "</td>" +
+                                        "<td class=\"center\">" + low + "</td>" +
+                                        "<td class=\"center\">" + close + "</td>" +
+                                        "<td class=\"center\">" + volume + "</td>" +
+                                        "<td class=\"center\">" + splitFactor + "</td>" +
+                                    "</tr>");
+                            oneRow.appendTo(tableContent);
+                        }
                     });
-                    tableEnd.appendTo(tableHead);
                 }
+            });
+            var tableHead = $("<thead><tr><th>Symbol</th><th>Date</th><th>Time</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th><th>SplitFactor</th></tr></thead>");
+            tableHead.appendTo(table);
+            tableContent.appendTo(table);
+            //$('#example').dataTable();
+            
+            //table.dataTable();
+            table.appendTo($("#stocksList"));
+            $('#example').dataTable({
+                iDisplayLength: 20
             });
         }
 
@@ -128,12 +149,8 @@
                             "<strong>Industry</strong> is: " + data.Industry + "</br>" +
                             "<strong>Summary Quote</strong> is: " + data.SummaryQuote + "</p>");
                     oneRow.appendTo($("#detailContent"));
-                }          
+                }
             });
-        }
-
-        window.onload = function () {
-            new TableSorter("stocks");
         }
 
         $("#search").on("click", function () {
@@ -155,4 +172,3 @@
             max: '2016-03-24 00:00:00'
         });
     </script>
-</div>
