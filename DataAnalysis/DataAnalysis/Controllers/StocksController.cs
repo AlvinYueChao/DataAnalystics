@@ -34,5 +34,7 @@ namespace DataAnalysis.Controllers
             Detail detail = dh.GetDetailBySymbol(symbol);
             return Json(detail, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }

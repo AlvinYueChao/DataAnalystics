@@ -23,5 +23,12 @@ namespace DataAnalysis.Controllers
             result = sh.GetStocksByTwoParams(symbol, date).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult Insert(String symbol)
+        {
+            bool result = sh.InsertSymbol(symbol);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
