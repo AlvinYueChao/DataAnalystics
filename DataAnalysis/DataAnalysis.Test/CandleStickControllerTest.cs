@@ -15,13 +15,6 @@ namespace DataAnalysis.Test
         {
             cc = new CandlestickController();
         }
-
-        //[TestMethod]
-        //public void TestCanGetIndex()
-        //{
-        //    var result = cc.Index() as ViewResult;
-        //    Assert.AreEqual("", result.ViewName);
-        //} 
         
     }
 }
